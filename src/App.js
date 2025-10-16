@@ -1,24 +1,26 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 
 
 function App() {
 
-  const [nome, setNome] = useState('');
-  const [email, setEmail] = useState('');
-  const [idade, setIdade] = useState('');
-
-  const [user, setUser] = useState({});
+  const [input, setInput] = useState('');
+  const [tarefas, setTarefas] = useState([
+'comprar batata',
+    'editar um video'
+  ]);
+ 
+ useEffect(()=>{
+    localStorage.setItem('@tarefa', JSON.stringift(tarefas))
+  }, [tarefas]);
 
   function handleRegister(e) {
     e.preventDefault();
 
-    alert('cadastrado com sucesso')
-    setUser({
-      nome: nome,
-      idade: idade,
-      email: email,
-    })
+    setTarefas([...tarefas,input]);
+    setInput('');
+
+
   }
 
 
@@ -30,38 +32,20 @@ function App() {
       <h1>Cadastro</h1>
       <form onSubmit={handleRegister}>
         <br />
-        <label>Nome:</label>
-        <br />
-        <input placeholder="Digite seu nome"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
+        <input placeholder="Digite uma Tarefa"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
         />
 
         <br />
-        <br />
-        <label>Email:</label><br />
-        <input placeholder="Digite seu email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)} />
-
-        <br />
-        <br />
-        <label>Idade:</label><br />
-        <input placeholder="Digite sua Idade"
-          value={idade}
-          onChange={(e) => setIdade(e.target.value)} />
-
-        <br />
-        <br />
-
-        <button type="submit"> Registrar</button>
+               <button type="submit"> Registrar</button>
 
       </form>
 
       <div>
-        <span> Bem vindo:{user.nome}</span><br />
-        <span> Idade:{user.idade} </span><br />
-        <span>Email:{user.email} </span>
+       <ul>
+        {tarefas.map(tarefa =>(<li key = {tarefa}>{tarefa}</li>))} 
+       </ul>
 
       </div>
 
