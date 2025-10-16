@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 
 
@@ -6,18 +6,31 @@ function App() {
 
   const [input, setInput] = useState('');
   const [tarefas, setTarefas] = useState([
-'comprar batata',
-    'editar um video'
+    'vender coca-cola',
+    'praticar escuta'
+
   ]);
- 
- useEffect(()=>{
-    localStorage.setItem('@tarefa', JSON.stringift(tarefas))
+
+
+
+  useEffect(() => {
+    const tarefasStorage = localStorage.getItem('@tarefa');
+    if(tarefasStorage){
+      setTarefas(JSON.parse(tarefasStorage))}
+
+  },[]);
+
+  useEffect(() => {
+    
+    localStorage.setItem('@tarefa', JSON.stringify(tarefas));
+
+
   }, [tarefas]);
 
   function handleRegister(e) {
     e.preventDefault();
 
-    setTarefas([...tarefas,input]);
+    setTarefas([...tarefas, input]);
     setInput('');
 
 
@@ -38,14 +51,14 @@ function App() {
         />
 
         <br />
-               <button type="submit"> Registrar</button>
+        <button type="submit"> Registrar</button>
 
       </form>
 
       <div>
-       <ul>
-        {tarefas.map(tarefa =>(<li key = {tarefa}>{tarefa}</li>))} 
-       </ul>
+        <ul>
+          {tarefas.map(tarefa => (<li key={tarefa}>{tarefa}</li>))}
+        </ul>
 
       </div>
 
